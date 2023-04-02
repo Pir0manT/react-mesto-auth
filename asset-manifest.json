@@ -1,29 +1,29 @@
 {
   "files": {
-    "main.css": "/mesto-react/static/css/main.6c4366d2.css",
-    "main.js": "/mesto-react/static/js/main.47b4140d.js",
-    "static/media/Inter-500.woff": "/mesto-react/static/media/Inter-500.9053572c46aeb4b16caa.woff",
-    "static/media/inter-900.woff": "/mesto-react/static/media/inter-900.6f3f8d238cb5ec6a7884.woff",
-    "static/media/inter-400.woff": "/mesto-react/static/media/inter-400.a252fc44cf11fd602874.woff",
-    "static/media/Inter-500.woff2": "/mesto-react/static/media/Inter-500.293fd13dbca5a3e450ef.woff2",
-    "static/media/inter-900.woff2": "/mesto-react/static/media/inter-900.769f5bb9abd2e78ec82b.woff2",
-    "static/media/inter-400.woff2": "/mesto-react/static/media/inter-400.7c370fde6764d889efe6.woff2",
-    "static/media/logo.svg": "/mesto-react/static/media/logo.bbe2a6eafac19c3d031c272c424875ca.svg",
-    "static/media/Spinner.svg": "/mesto-react/static/media/Spinner.bdb71c4cb794b701f4410794ec6b1926.svg",
-    "static/media/heart.svg": "/mesto-react/static/media/heart.0e390048c288271ab07f.svg",
-    "index.html": "/mesto-react/index.html",
-    "static/media/DeleteButton.svg": "/mesto-react/static/media/DeleteButton.ce3b64935accf9b8212e.svg",
-    "static/media/heart_active.svg": "/mesto-react/static/media/heart_active.35948469632d0421d697.svg",
-    "static/media/EditButton.svg": "/mesto-react/static/media/EditButton.af236f6cf67005f1d7aa.svg",
-    "static/media/profileEdit.svg": "/mesto-react/static/media/profileEdit.ae1a976ddb506239e9f0.svg",
-    "static/media/CloseIcon.svg": "/mesto-react/static/media/CloseIcon.039f1f5203f653b4bacd.svg",
-    "static/media/plus.svg": "/mesto-react/static/media/plus.bed8c136e13907f5eefb.svg",
-    "static/media/plus_small.svg": "/mesto-react/static/media/plus_small.d5d6f8af0577b9c95ee4.svg",
-    "main.6c4366d2.css.map": "/mesto-react/static/css/main.6c4366d2.css.map",
-    "main.47b4140d.js.map": "/mesto-react/static/js/main.47b4140d.js.map"
+    "main.css": "/react-mesto-auth/static/css/main.7075d6eb.css",
+    "main.js": "/react-mesto-auth/static/js/main.c05f3315.js",
+    "static/media/Inter-500.woff": "/react-mesto-auth/static/media/Inter-500.9053572c46aeb4b16caa.woff",
+    "static/media/inter-900.woff": "/react-mesto-auth/static/media/inter-900.6f3f8d238cb5ec6a7884.woff",
+    "static/media/inter-400.woff": "/react-mesto-auth/static/media/inter-400.a252fc44cf11fd602874.woff",
+    "static/media/Inter-500.woff2": "/react-mesto-auth/static/media/Inter-500.293fd13dbca5a3e450ef.woff2",
+    "static/media/inter-900.woff2": "/react-mesto-auth/static/media/inter-900.769f5bb9abd2e78ec82b.woff2",
+    "static/media/inter-400.woff2": "/react-mesto-auth/static/media/inter-400.7c370fde6764d889efe6.woff2",
+    "static/media/logo.svg": "/react-mesto-auth/static/media/logo.bbe2a6eafac19c3d031c272c424875ca.svg",
+    "static/media/Spinner.svg": "/react-mesto-auth/static/media/Spinner.bdb71c4cb794b701f4410794ec6b1926.svg",
+    "index.html": "/react-mesto-auth/index.html",
+    "static/media/heart.svg": "/react-mesto-auth/static/media/heart.0e390048c288271ab07f.svg",
+    "static/media/DeleteButton.svg": "/react-mesto-auth/static/media/DeleteButton.ce3b64935accf9b8212e.svg",
+    "static/media/heart_active.svg": "/react-mesto-auth/static/media/heart_active.35948469632d0421d697.svg",
+    "static/media/EditButton.svg": "/react-mesto-auth/static/media/EditButton.af236f6cf67005f1d7aa.svg",
+    "static/media/profileEdit.svg": "/react-mesto-auth/static/media/profileEdit.ae1a976ddb506239e9f0.svg",
+    "static/media/CloseIcon.svg": "/react-mesto-auth/static/media/CloseIcon.039f1f5203f653b4bacd.svg",
+    "static/media/plus.svg": "/react-mesto-auth/static/media/plus.bed8c136e13907f5eefb.svg",
+    "static/media/plus_small.svg": "/react-mesto-auth/static/media/plus_small.d5d6f8af0577b9c95ee4.svg",
+    "main.7075d6eb.css.map": "/react-mesto-auth/static/css/main.7075d6eb.css.map",
+    "main.c05f3315.js.map": "/react-mesto-auth/static/js/main.c05f3315.js.map"
   },
   "entrypoints": [
-    "static/css/main.6c4366d2.css",
-    "static/js/main.47b4140d.js"
+    "static/css/main.7075d6eb.css",
+    "static/js/main.c05f3315.js"
   ]
 }
