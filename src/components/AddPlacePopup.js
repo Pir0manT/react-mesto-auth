@@ -1,5 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import PopupWithForm from './PopupWithForm'
+import { useInput } from '../hooks/input.hook'
+import ErrorMessage from './ErrorMessage'
 
 const AddPlacePopup = ({
   isOpen,
@@ -8,17 +10,25 @@ const AddPlacePopup = ({
   onClose,
   onAddPlace,
 }) => {
-  const nameRef = useRef()
-  const linkRef = useRef()
+  // const nameRef = useRef()
+  // const linkRef = useRef()
+
+  const name = useInput('')
+  const url = useInput('', { isUrl: true })
 
   useEffect(() => {
-    nameRef.current.value = ''
-    linkRef.current.value = ''
+    // nameRef.current.value = ''
+    // linkRef.current.value = ''
+    name.setValue('')
+    url.setValue('')
+    name.clearErrorMessage()
+    url.clearErrorMessage()
   }, [isOpen])
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    onAddPlace({ name: nameRef.current.value, link: linkRef.current.value })
+    // onAddPlace({ name: nameRef.current.value, link: linkRef.current.value })
+    onAddPlace({ name: name.value, link: url.value })
   }
 
   return (
@@ -31,19 +41,23 @@ const AddPlacePopup = ({
       onSubmit={handleSubmit}
       title="Новое место"
       btnTitle="Создать"
+      btnDisabled={!name.isValid.result || !url.isValid.result}
     >
       <input
         required
         className="popup__input"
         type="text"
-        placeholder="Название"
-        id="element-name"
         minLength="2"
         maxLength="30"
+        placeholder="Название"
+        id="element-name"
         name="name"
-        ref={nameRef}
+        // ref={nameRef}
+        value={name.value}
+        onChange={(e) => name.onChange(e)}
+        onBlur={(e) => name.onBlur(e)}
       />
-      <span className="popup__error element-name-error"></span>
+      <ErrorMessage message={name.isValid.errorMessage} />
       <input
         required
         className="popup__input"
@@ -51,9 +65,12 @@ const AddPlacePopup = ({
         placeholder="Ссылка на картинку"
         id="element-link"
         name="link"
-        ref={linkRef}
+        // ref={linkRef}
+        value={url.value}
+        onChange={(e) => url.onChange(e)}
+        onBlur={(e) => url.onBlur(e)}
       />
-      <span className="popup__error element-link-error"></span>
+      <ErrorMessage message={url.isValid.errorMessage} />
     </PopupWithForm>
   )
 }

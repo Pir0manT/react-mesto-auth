@@ -1,95 +1,63 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 
-const useValidation = (value, validations) => {
-  const [isEmpty, setEmpty] = useState(true)
-  const [minLengthError, setMinLengthError] = useState(false)
-  const [maxLengthError, setMaxLengthError] = useState(false)
-  const [emailError, setEmailError] = useState(false)
-  const [urlError, setUrlError] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('')
+// Уважаемый ревьювер, я использую кастомную (усиленную) валидацию
+// потому что мне не нравится, как ее выполняет браузер
+// например допускаются url вида http://a
+// или адреса почты вида a@a
+// я понимаю, что по RFC существование таких доменов допускается
+// но в реальной жизни с ними обычно никто не сталкивается
 
-  useEffect(() => {
+const useValidation = () => {
+  const validate = useCallback((input, validations) => {
+    if (!input.validity.valid)
+      return { result: false, errorMessage: input.validationMessage }
+
     for (const validation in validations) {
       switch (validation) {
-        case 'minLength':
-          value.length < validations[validation]
-            ? setMinLengthError(true)
-            : setMinLengthError(false)
-          if (minLengthError)
-            setErrorMessage(
-              `Текст должен быть не короче ${validations[validation]} симв. Длина текста сейчас: ${value.length} симв.`
-            )
-          break
-        case 'maxLength':
-          value.length > validations[validation]
-            ? setMaxLengthError(true)
-            : setMaxLengthError(false)
-          if (maxLengthError)
-            setErrorMessage(
-              `Текст должен быть не длиннее ${validations[validation]} симв. Длина текста сейчас: ${value.length} симв.`
-            )
-          break
         case 'isEmail':
           const reEmail =
             /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-          reEmail.test(String(value).toLowerCase())
-            ? setEmailError(false)
-            : setEmailError(true)
-          if (emailError) setErrorMessage('Пожалуйста, введите Email')
+          if (!reEmail.test(input.value.toLowerCase()))
+            return { result: false, errorMessage: 'Пожалуйста, введите Email' }
           break
         case 'isUrl':
           const reUrl =
             /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i
-          reUrl.test(String(value).toLowerCase())
-            ? setUrlError(false)
-            : setUrlError(true)
-          if (urlError) setErrorMessage('Пожалуйста, введите URL')
-          break
-        case 'isEmpty':
-          value ? setEmpty(false) : setEmpty(true)
-          if (isEmpty) setErrorMessage('Заполните это поле.')
+          if (!reUrl.test(input.value.toLowerCase()))
+            return { result: false, errorMessage: 'Пожалуйста, введите URL' }
           break
       }
     }
-  }, [value])
-
-  if (
-    !isEmpty &&
-    !minLengthError &&
-    !maxLengthError &&
-    !emailError &&
-    !urlError
-  )
-    setErrorMessage('')
-
+    return { result: true, errorMessage: '' }
+  }, [])
   return {
-    isEmpty,
-    minLengthError,
-    maxLengthError,
-    emailError,
-    urlError,
-    errorMessage,
+    validate,
   }
 }
-const useInput = (initialValue, validations) => {
+export const useInput = (initialValue, validations = {}) => {
   const [value, setValue] = useState(initialValue)
-  const [isDirty, setDirty] = useState(false)
-  const valid = useValidation(value, validations)
+  const { validate } = useValidation()
+  const [isValid, setValid] = useState({ result: false, errorMessage: '' })
 
   const onChange = (e) => {
     setValue(e.target.value)
+    setValid(() => validate(e.target, validations))
   }
   const onBlur = (e) => {
-    setDirty(true)
+    setValid(() => validate(e.target, validations))
   }
+
+  const clearErrorMessage = useCallback(
+    (res = false) => setValid({ result: res, errorMessage: '' }),
+    []
+  )
 
   return {
     value,
-    isDirty,
+    setValue,
     onChange,
     onBlur,
-    ...valid,
+    isValid,
+    clearErrorMessage,
   }
 }
-
-export default useInput()

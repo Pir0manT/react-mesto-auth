@@ -1,6 +1,8 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
 import PopupWithForm from './PopupWithForm'
+import { useInput } from '../hooks/input.hook'
+import ErrorMessage from './ErrorMessage'
 
 const EditProfilePopup = ({
   isOpen,
@@ -10,17 +12,21 @@ const EditProfilePopup = ({
   onUpdateUser,
 }) => {
   const currentUser = useContext(CurrentUserContext)
-  const [name, setName] = useState(currentUser.name)
-  const [description, setDescription] = useState(currentUser.about)
+  // const [name, setName] = useState(currentUser.name)
+  // const [description, setDescription] = useState(currentUser.about)
+  const userName = useInput(currentUser.name)
+  const userJob = useInput(currentUser.about)
 
   useEffect(() => {
-    setName(currentUser.name)
-    setDescription(currentUser.about)
+    userName.setValue(currentUser.name)
+    userJob.setValue(currentUser.about)
+    userName.clearErrorMessage(true)
+    userJob.clearErrorMessage(true)
   }, [currentUser, isOpen])
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    onUpdateUser({ name, about: description })
+    onUpdateUser({ name: userName.value, about: userJob.value })
   }
 
   return (
@@ -33,6 +39,7 @@ const EditProfilePopup = ({
       onSubmit={handleSubmit}
       title="Редактировать профиль"
       btnTitle="Сохранить"
+      btnDisabled={!userName.isValid.result || !userJob.isValid.result}
     >
       <input
         required
@@ -42,10 +49,11 @@ const EditProfilePopup = ({
         id="name-input"
         minLength="2"
         maxLength="40"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={userName.value}
+        onChange={(e) => userName.onChange(e)}
+        onBlur={(e) => userName.onBlur(e)}
       />
-      <span className="popup__error name-input-error"></span>
+      <ErrorMessage message={userName.isValid.errorMessage} />
       <input
         required
         className="popup__input"
@@ -55,10 +63,11 @@ const EditProfilePopup = ({
         minLength="2"
         maxLength="200"
         name="about"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
+        value={userJob.value}
+        onChange={(e) => userJob.onChange(e)}
+        onBlur={(e) => userJob.onBlur(e)}
       />
-      <span className="popup__error description-input-error"></span>
+      <ErrorMessage message={userJob.isValid.errorMessage} />
     </PopupWithForm>
   )
 }

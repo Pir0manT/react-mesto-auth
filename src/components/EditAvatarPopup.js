@@ -1,6 +1,8 @@
-import { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect } from 'react'
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
 import PopupWithForm from './PopupWithForm'
+import { useInput } from '../hooks/input.hook'
+import ErrorMessage from './ErrorMessage'
 
 const EditAvatarPopup = ({
   isOpen,
@@ -10,16 +12,21 @@ const EditAvatarPopup = ({
   onUpdateAvatar,
 }) => {
   const currentUser = useContext(CurrentUserContext)
-  const avatarRef = useRef()
+  // const avatarRef = useRef()
+  const avatar = useInput('', { isUrl: true })
 
   useEffect(() => {
-    avatarRef.current.value = currentUser.avatar
+    // avatarRef.current.value = currentUser.avatar
     // avatarRef.current.value = ''
+    avatar.setValue(currentUser.avatar)
+    // avatar.setValue('')
+    avatar.clearErrorMessage(true)
   }, [currentUser, isOpen])
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    onUpdateAvatar({ avatar: avatarRef.current.value })
+    // onUpdateAvatar({ avatar: avatarRef.current.value })
+    onUpdateAvatar({ avatar: avatar.value })
   }
 
   return (
@@ -32,6 +39,7 @@ const EditAvatarPopup = ({
       onSubmit={handleSubmit}
       title="Обновить аватар"
       btnTitle="Сохранить"
+      btnDisabled={!avatar.isValid.result}
     >
       <input
         required
@@ -40,9 +48,12 @@ const EditAvatarPopup = ({
         placeholder="Ссылка на аватар"
         id="avatar-link"
         name="avatar"
-        ref={avatarRef}
+        // ref={avatarRef}
+        value={avatar.value}
+        onChange={(e) => avatar.onChange(e)}
+        onBlur={(e) => avatar.onBlur(e)}
       />
-      <span className="popup__error avatar-link-error"></span>
+      <ErrorMessage message={avatar.isValid.errorMessage} />
     </PopupWithForm>
   )
 }

@@ -11,12 +11,15 @@ function PopupWithForm({
   onClose,
   onSubmit,
   isConfirmPopup,
+  btnDisabled,
 }) {
   const submitBtnRef = useRef()
 
   useEffect(() => {
     submitBtnRef.current.textContent = isSaving ? loadingText : btnTitle
   }, [isSaving, loadingText])
+
+  console.log(btnDisabled)
 
   return (
     <div className={`popup popup_type_${name} ${isOpen && 'popup_opened'}`}>
@@ -28,7 +31,14 @@ function PopupWithForm({
         <h2 className="popup__title">{title}</h2>
         <form name={name} onSubmit={onSubmit} className="popup__form">
           {children}
-          <button ref={submitBtnRef} className="popup__save" type="submit">
+          <button
+            ref={submitBtnRef}
+            className={`popup__save ${
+              btnDisabled ? 'popup__save_disabled' : ''
+            }`}
+            type="submit"
+            disabled={btnDisabled}
+          >
             {btnTitle}
           </button>
         </form>
