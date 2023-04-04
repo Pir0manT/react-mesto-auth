@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react'
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
+import { useAuth } from '../hooks/auth.hook'
 import Header from './Header'
 import Footer from './Footer'
 import Main from './Main'
 import ImagePopup from './ImagePopup'
-import { CurrentUserContext } from '../contexts/CurrentUserContext'
-import api from '../utils/api'
-import spinner from '../images/Spinner.svg'
 import EditProfilePopup from './EditProfilePopup'
 import EditAvatarPopup from './EditAvatarPopup'
 import ConfirmDeletePopup from './ConfirmDeletePopup'
 import AddPlacePopup from './AddPlacePopup'
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
-import { useAuth } from '../hooks/auth.hook'
-import resolve from '../images/resolve.svg'
-import reject from '../images/reject.svg'
 import InfoTooltip from './InfoTooltip'
 import Login from './Login'
 import Register from './Register'
 import ProtectedRoute from './ProtectedRoute'
+import { CurrentUserContext } from '../contexts/CurrentUserContext'
+import api from '../utils/api'
+import spinner from '../images/Spinner.svg'
+import resolve from '../images/resolve.svg'
+import reject from '../images/reject.svg'
 
 function App() {
   const [isEditProfilePopupOpen, setOpenEditProfile] = useState(false)
@@ -42,7 +42,7 @@ function App() {
   const [popupTitle, setPopupTitle] = useState('')
   const navigate = useNavigate()
 
-  const { loginUser, registerUser, getToken, error, clearError } = useAuth()
+  const { loginUser, registerUser, getToken, error } = useAuth()
 
   function onRegister(email, password) {
     registerUser(email, password)
@@ -54,8 +54,7 @@ function App() {
       .catch(() => {
         setPopupImage(reject)
         setPopupTitle('Что-то пошло не так! Попробуйте ещё раз.')
-        console.error(error)
-        clearError()
+        console.error('Error: ' + error)
       })
       .finally(handleInfoTooltip)
   }
@@ -71,8 +70,7 @@ function App() {
       .catch(() => {
         setPopupImage(reject)
         setPopupTitle('Что-то пошло не так! Попробуйте ещё раз.')
-        console.error(error)
-        clearError()
+        console.error('Error: ' + error)
         handleInfoTooltip()
       })
   }
@@ -95,8 +93,7 @@ function App() {
           }
         })
         .catch(() => {
-          console.error(error)
-          clearError()
+          console.error('Error: ' + error)
         })
     }
   }, [])
