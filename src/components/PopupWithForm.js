@@ -19,8 +19,6 @@ function PopupWithForm({
     submitBtnRef.current.textContent = isSaving ? loadingText : btnTitle
   }, [isSaving, loadingText])
 
-  console.log(btnDisabled)
-
   return (
     <div className={`popup popup_type_${name} ${isOpen && 'popup_opened'}`}>
       <div

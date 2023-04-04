@@ -10,11 +10,14 @@ import EditProfilePopup from './EditProfilePopup'
 import EditAvatarPopup from './EditAvatarPopup'
 import ConfirmDeletePopup from './ConfirmDeletePopup'
 import AddPlacePopup from './AddPlacePopup'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/auth.hook'
 import resolve from '../images/resolve.svg'
 import reject from '../images/reject.svg'
 import InfoTooltip from './InfoTooltip'
+import Login from './Login'
+import Register from './Register'
+import ProtectedRoute from './ProtectedRoute'
 
 function App() {
   const [isEditProfilePopupOpen, setOpenEditProfile] = useState(false)
@@ -218,18 +221,58 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header />
-        <Main
-          onEditAvatar={handleEditAvatarClick}
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onCardClick={handleCardClick}
-          cards={cards}
-          onCardLike={handleCardLike}
-          onCardDelete={handleDeleteClick}
-        />
-        <Footer />
+        <Routes>
+          <Route
+            path="/sign-in"
+            element={
+              <>
+                <Header title="Регистрация" route="/sign-up" />
+                <Login onLogin={onLogin} />
+              </>
+            }
+          />
+          <Route
+            path="/sign-up"
+            element={
+              <>
+                <Header title="Войти" route="/sign-in" />
+                <Register onRegister={onRegister} />
+              </>
+            }
+          />
 
+          <Route
+            exact
+            path="/"
+            element={
+              <>
+                <Header
+                  title="Выйти"
+                  email={emailName}
+                  onClick={onSignOut}
+                  route=""
+                />
+                <ProtectedRoute
+                  component={Main}
+                  isLogged={isLoggedIn}
+                  onEditAvatar={handleEditAvatarClick}
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onCardClick={handleCardClick}
+                  cards={cards}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleDeleteClick}
+                />
+                <Footer />
+              </>
+            }
+          />
+
+          <Route
+            path="*"
+            element={<Navigate to={isLoggedIn ? '/' : '/sign-in'} />}
+          />
+        </Routes>
         <ConfirmDeletePopup
           isOpen={isConfirmDeletePopupOpen}
           isSaving={isSaving}
