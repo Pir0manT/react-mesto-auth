@@ -38,8 +38,10 @@ function App() {
   const [loadingText, setLoadingText] = useState('Сохранение...')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [emailName, setEmailName] = useState(null)
-  const [popupImage, setPopupImage] = useState('')
-  const [popupTitle, setPopupTitle] = useState('')
+  const [infoToolTipData, setInfoToolTipData] = useState({
+    title: '',
+    image: '',
+  })
   const navigate = useNavigate()
 
   const { loginUser, registerUser, getToken, error } = useAuth()
@@ -47,13 +49,17 @@ function App() {
   function onRegister(email, password) {
     registerUser(email, password)
       .then(() => {
-        setPopupImage(resolve)
-        setPopupTitle('Вы успешно зарегистрировались!')
+        setInfoToolTipData({
+          image: resolve,
+          title: 'Вы успешно зарегистрировались!',
+        })
         navigate('/sign-in')
       })
       .catch(() => {
-        setPopupImage(reject)
-        setPopupTitle('Что-то пошло не так! Попробуйте ещё раз.')
+        setInfoToolTipData({
+          image: reject,
+          title: 'Что-то пошло не так! Попробуйте ещё раз.',
+        })
         console.error('Error: ' + error)
       })
       .finally(handleInfoTooltip)
@@ -68,8 +74,10 @@ function App() {
         navigate('/')
       })
       .catch(() => {
-        setPopupImage(reject)
-        setPopupTitle('Что-то пошло не так! Попробуйте ещё раз.')
+        setInfoToolTipData({
+          image: reject,
+          title: 'Что-то пошло не так! Попробуйте ещё раз.',
+        })
         console.error('Error: ' + error)
         handleInfoTooltip()
       })
@@ -105,13 +113,14 @@ function App() {
   }, [isLoggedIn, navigate])
 
   useEffect(() => {
-    Promise.all([api.getProfile(), api.getInitialCards()])
-      .then(([userProfile, cards]) => {
-        setCurrentUser(userProfile)
-        setCards(cards)
-      })
-      .catch((error) => console.log(error))
-  }, [])
+    if (isLoggedIn)
+      Promise.all([api.getProfile(), api.getInitialCards()])
+        .then(([userProfile, cards]) => {
+          setCurrentUser(userProfile)
+          setCards(cards)
+        })
+        .catch((error) => console.log(error))
+  }, [isLoggedIn])
 
   const handleCardClick = (card) => {
     setSelectedCard(card)
@@ -310,8 +319,8 @@ function App() {
         />
 
         <InfoTooltip
-          image={popupImage}
-          title={popupTitle}
+          image={infoToolTipData.image}
+          title={infoToolTipData.title}
           isOpen={isInfoTooltipOpen}
           onClose={closeAllPopups}
         />
