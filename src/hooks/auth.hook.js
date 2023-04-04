@@ -1,6 +1,6 @@
 import { useHttp } from './http.hook'
 
-const useAuth = () => {
+export const useAuth = () => {
   const { request, error, clearError } = useHttp()
   const _apiBase = 'https://auth.nomoreparties.co/'
 
@@ -30,5 +30,3 @@ const useAuth = () => {
   }
   return { loginUser, registerUser, getToken, error, clearError }
 }
-
-export default useAuth()
