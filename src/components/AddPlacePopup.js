@@ -53,9 +53,7 @@ const AddPlacePopup = ({
         id="element-name"
         name="name"
         // ref={nameRef}
-        value={name.value}
-        onChange={(e) => name.onChange(e)}
-        onBlur={(e) => name.onBlur(e)}
+        {...name}
       />
       <ErrorMessage message={name.isValid.errorMessage} />
       <input
@@ -65,10 +63,7 @@ const AddPlacePopup = ({
         placeholder="Ссылка на картинку"
         id="element-link"
         name="link"
-        // ref={linkRef}
-        value={url.value}
-        onChange={(e) => url.onChange(e)}
-        onBlur={(e) => url.onBlur(e)}
+        {...url}
       />
       <ErrorMessage message={url.isValid.errorMessage} />
     </PopupWithForm>

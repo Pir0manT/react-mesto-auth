@@ -17,22 +17,18 @@ const Login = ({ onLogin }) => {
           className="login__input"
           type="email"
           placeholder="Email"
-          value={email.value}
-          onChange={(e) => email.onChange(e)}
-          onBlur={(e) => email.onBlur(e)}
           required
+          {...email}
         />
         <ErrorMessage message={email.isValid.errorMessage} />
         <input
           className="login__input"
           type="password"
           placeholder="Пароль"
-          value={password.value}
           autoComplete="on"
           minLength="5"
-          onChange={(e) => password.onChange(e)}
-          onBlur={(e) => password.onBlur(e)}
           required
+          {...password}
         />
         <ErrorMessage message={password.isValid.errorMessage} />
         <button

@@ -49,9 +49,7 @@ const EditAvatarPopup = ({
         id="avatar-link"
         name="avatar"
         // ref={avatarRef}
-        value={avatar.value}
-        onChange={(e) => avatar.onChange(e)}
-        onBlur={(e) => avatar.onBlur(e)}
+        {...avatar}
       />
       <ErrorMessage message={avatar.isValid.errorMessage} />
     </PopupWithForm>

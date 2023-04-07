@@ -49,9 +49,7 @@ const EditProfilePopup = ({
         id="name-input"
         minLength="2"
         maxLength="40"
-        value={userName.value}
-        onChange={(e) => userName.onChange(e)}
-        onBlur={(e) => userName.onBlur(e)}
+        {...userName}
       />
       <ErrorMessage message={userName.isValid.errorMessage} />
       <input
@@ -63,9 +61,7 @@ const EditProfilePopup = ({
         minLength="2"
         maxLength="200"
         name="about"
-        value={userJob.value}
-        onChange={(e) => userJob.onChange(e)}
-        onBlur={(e) => userJob.onBlur(e)}
+        {...userJob}
       />
       <ErrorMessage message={userJob.isValid.errorMessage} />
     </PopupWithForm>
